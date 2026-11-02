@@ -1,0 +1,89 @@
+WATERREGISSEUR — EXPORT VOOR SCHOOLGEBRUIK
+Versie: 23 oktober 2026
+
+VOOR DE DOCENT
+1. Pak Waterregisseur-export.zip uit.
+2. Geef de map website aan de ICT-beheerder, samen met dit bestand.
+3. Laat de inhoud van website op een webserver plaatsen.
+4. Deel het webadres van index.html met de leerlingen, bijvoorbeeld via Magister.
+
+De geëxporteerde website heeft geen ChatGPT-account, abonnement, API-sleutel,
+database of installatie op leerlingapparaten nodig. Hosting is apart nodig.
+Alle drie de missies zijn aanwezig, met campagne, losse missies en duels.
+Het duel werkt om de beurt op één apparaat, niet gelijktijdig op twee apparaten.
+
+VOOR DE ICT-BEHEERDER
+Dit is een statische website met HTML, CSS, JavaScript en lokale kaartbestanden.
+Upload de volledige INHOUD van de map website naar een map op uw webserver.
+Behoud de bestandsnamen, hoofdletters en submappen (waaronder vendor/images).
+index.html is de startpagina. Gebruik bij voorkeur HTTPS.
+Er is geen buildstap, Node.js-server, database of SPA-omleiding nodig.
+Ook plaatsing in een submap is mogelijk; interne paden zijn relatief.
+De server moet .html, .js, .css, .json en .png als normale bestanden aanbieden.
+Gebruik geen omgeving die JavaScript uitschakelt of uitsluitend documenten toont.
+Gebruik bij voorkeur een eigen tabblad in plaats van een ingesloten documentviewer.
+
+Open index.html niet alleen door erop te dubbelklikken: file:// kan het laden van
+countries.json en browseropslag beperken. Test via een HTTP(S)-webserver.
+Voor lokaal testen op een beheerderscomputer met Python 3:
+  cd website
+  python3 -m http.server 8000 --bind 127.0.0.1
+Open vervolgens http://localhost:8000 in een browser op die computer.
+Dit is een lokale test; leerlingen kunnen localhost op uw computer niet bereiken.
+
+CONTROLE VOOR DE LES
+- Open de leerling-URL zonder uw ChatGPT-account, liefst in een privévenster.
+- Controleer Campagne, Losse missies en Duel.
+- Start elk van de drie missies en voer één tijdstap uit.
+- Test de standaardkaart, reliëfkaart, landgebruikskaart en legenda op het schoolnetwerk.
+- Test de terugkeer naar Hoofdmenu.
+- Spreek af dat leerlingen in een duel niet meekijken tijdens de beurt van de ander.
+
+INTERNET EN EXTERNE DIENSTEN
+De spelberekeningen en het hoofdscherm werken in de browser. Leaflet en de
+basislandcontouren zijn meegeleverd. Externe diensten leveren de aanvullende
+kaarten, lettertypen, legenda's en bronpagina's. Die kunnen bij blokkering of
+uitval ontbreken; gebruik dan de schone waterkaart. Dit is geen volledige
+offline-export.
+Kaartdiensten: OpenStreetMap, OpenTopoMap en service.pdok.nl.
+Lettertypen: fonts.googleapis.com en fonts.gstatic.com.
+Bronlinks verwijzen onder meer naar Rijkswaterstaat en IPLO.
+Voor Maas gebruikt de laag Natuur en landbouw vereenvoudigde oefenprofielen;
+IJsselmeer en delta gebruiken aanvullend de LGN-kaartlaag.
+Externe diensten ontvangen de gebruikelijke webverzoeken van de browser.
+
+VOORTGANG, NAMEN EN RESULTATEN
+Voortgang en sommige scores staan lokaal in de browser, niet op een centrale
+leerlingserver. Gebruik een bijnaam als spelersnaam. Leerlingen hoeven geen
+account aan te maken. De docent krijgt geen centraal overzicht.
+De browser en het webadres bepalen waar opgeslagen voortgang beschikbaar is.
+Voortgang van de oude ChatGPT-site verhuist niet automatisch naar een nieuw domein.
+Op een gedeeld apparaat kan voortgang van een vorige gebruiker zichtbaar zijn.
+Privévensters bewaren gegevens doorgaans niet na sluiten.
+Lopende missies en duels worden niet hervat na verversen of verlaten.
+Na een voltooide duelronde is de feedback van beide spelers beschikbaar tot verlaten.
+
+ONDERWIJSKUNDIGE GRENZEN
+Dit is een onderwijsmodel, geen operationele voorspeller. Weerreeksen, sommige
+capaciteiten, kosten en veiligheidsgrenzen zijn oefenaannamen. De uitleg in elke
+missie geeft aan wat vereenvoudigd is. Animaties zijn geen inundatieberekeningen.
+De score van een duel vergelijkt alleen spelers binnen dezelfde missie.
+
+AANPASSEN EN LATER VERVANGEN
+De map website bevat ook de bewerkbare broncode; er is geen aparte build nodig.
+Bewaar de zip als reservekopie. Vervang bij een update alle websitebestanden samen.
+Behoud bronverwijzingen, kaartattributie en vendor/LEAFLET-LICENSE.txt.
+Gebruik geen API-sleutels of wachtwoorden in bestanden die publiek worden gehost.
+
+BESTANDEN
+website/index.html           Hoofdmenu
+website/maas.html            Maas, missiekeuze en campagneoverzicht
+website/ijsselmeer.html      IJsselmeermissie
+website/storm.html           Deltamissie
+website/duel.js              Duelverloop IJsselmeer en delta
+website/*-model.js, model.js Onderwijsmodellen
+website/vendor              Meegeleverde kaartbibliotheek en licentie
+SHA256SUMS.txt               Controlesommen van de websitebestanden
+
+Deze export publiceert de schoolwebsite niet automatisch. De bestaande
+ChatGPT-publicatie houdt haar huidige toegangsinstellingen.

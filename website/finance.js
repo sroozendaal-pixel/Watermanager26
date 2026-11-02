@@ -1,0 +1,12 @@
+/* Fictional, explicit classroom finance rules; not real loan or subsidy offers. */
+(function(root){
+const D=typeof require==='function'?require('./data.js'):root.MaasData;
+const clean=f=>({loan:[0,15e6,30e6].includes(f?.loan)?f.loan:0,pps:!!f?.pps,grant:!!f?.grant,reason:f?.reason==='water-nature'?'water-nature':''});
+const schedule=loan=>[{principal:loan/2,interest:loan*.04,total:loan/2+Math.round(loan*.04)},{principal:loan/2,interest:loan*.02,total:loan/2+Math.round(loan*.02)}];
+function due(scenario,ledger={}){const keys=Object.keys(D.scenarios),index=keys.indexOf(scenario);return keys.slice(0,index).reduce((n,key,i)=>{const age=index-i;return n+(age<=2?schedule(clean(ledger[key]).loan)[age-1].total:0);},0);}
+function futureDue(scenario,ledger={}){const keys=Object.keys(D.scenarios),index=keys.indexOf(scenario);return [1,2].map(offset=>keys.slice(0,index).reduce((n,key,i)=>{const age=index-i+offset;return n+(age<=2?schedule(clean(ledger[key]).loan)[age-1].total:0);},0));}
+function apply(plan,finance){const f=clean(finance);return plan.map(p=>({...p,pps:f.pps&&p.areaId==='plassen'&&p.measureId==='retention'}));}
+function totals(plan,scenario,finance,repayment=0,inheritedFuture=[0,0]){const f=clean(finance),ops=plan.map(p=>D.quote(p.areaId,p.measureId,p.packageId,scenario)),spent=ops.reduce((n,q)=>n+q.cost,0),partner=ops.find(q=>q.area.id==='plassen'&&q.measure.id==='retention'),eligible=ops.filter(q=>q.suitable&&q.package.id==='natuur'&&q.eco>0&&q.area.id!=='plassen'),eligibleCost=eligible.reduce((n,q)=>n+q.cost,0),pps=f.pps&&partner?Math.min(12e6,Math.round(partner.cost*.3)):0,grant=f.grant&&f.reason==='water-nature'&&eligible.length>=2?Math.min(20e6,Math.round(eligibleCost*.25)):0,base=D.scenarios[scenario].budget,total=base-repayment+f.loan+pps+grant,interest=Math.round(f.loan*.06);
+return {...f,base,repayment,spent,ppsContribution:pps,grantContribution:grant,eligible:eligible.map(q=>q.area.name),eligibleCost,total,remaining:total-spent,interest,futurePayments:schedule(f.loan),inheritedFuture,allFuturePayments:schedule(f.loan).map((x,i)=>x.total+inheritedFuture[i]),allFutureTotal:f.loan+interest+inheritedFuture.reduce((a,b)=>a+b,0),totalRepayable:f.loan+interest,netPublicCost:spent-pps-grant+interest+repayment};}
+root.MaasFinance={clean,schedule,due,futureDue,apply,totals};if(typeof module!=='undefined')module.exports=root.MaasFinance;
+})(typeof window!=='undefined'?window:globalThis);
